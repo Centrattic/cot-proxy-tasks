@@ -23,6 +23,12 @@ from vllm import SamplingParams as VllmSamplingParams
 
 from ...utils.questions import GPQAQuestion, BinaryJudgeQuestion, Question
 from ...utils.chat_template import build_thinking_prompt
+from .data_loader import (
+    load_question_and_cot as _load_question_and_cot,
+    get_verified_questions as _get_verified_questions,
+    get_latest_verification_dir,
+    load_verification_summary,
+)
 
 
 # ------------------------------------------------------------------
@@ -202,53 +208,18 @@ class CompressedCotTask:
         return {c: 0.0 for c in choices}
 
     # ------------------------------------------------------------------
-    # Question / CoT loading
+    # Question / CoT loading (delegates to data_loader)
     # ------------------------------------------------------------------
 
     def load_question_and_cot(
         self, question_id: str, rollout_idx: int = 0,
     ) -> Optional[Tuple[Question, str]]:
         """Load a Question object and its source CoT from verification data."""
-        verification_dir = self.verification_dir / question_id
-        if not verification_dir.exists():
-            return None
-
-        run_dir = self._get_latest_verification_dir(question_id)
-        if run_dir is None:
-            return None
-
-        rollout_path = run_dir / "rollouts" / f"rollout_{rollout_idx:03d}.json"
-        summary_path = run_dir / "summary.json"
-
-        if not rollout_path.exists() or not summary_path.exists():
-            return None
-
-        with open(rollout_path) as f:
-            rollout_data = json.load(f)
-        with open(summary_path) as f:
-            summary = json.load(f)
-
-        try:
-            question = _question_from_summary(summary)
-        except (KeyError, TypeError):
-            return None
-        source_cot = rollout_data.get("thinking", "") or rollout_data.get("full_response", "")
-        if not source_cot:
-            return None
-
-        return question, source_cot
+        return _load_question_and_cot(self.verification_dir, question_id, rollout_idx)
 
     def get_verified_questions(self, threshold: float = 0.8) -> List[str]:
         """Get question IDs that meet the verification agreement threshold."""
-        verified = []
-        if not self.verification_dir.exists():
-            return verified
-        for qdir in self.verification_dir.iterdir():
-            if qdir.is_dir():
-                summary = self._load_verification_summary(qdir.name)
-                if summary and summary.get("agreement_rate", 0) >= threshold:
-                    verified.append(qdir.name)
-        return sorted(verified)
+        return _get_verified_questions(self.verification_dir, threshold)
 
     # ------------------------------------------------------------------
     # Spec builder
@@ -301,29 +272,6 @@ class CompressedCotTask:
         )
         return f"{question.question}\n\n{choices}\n\nAnswer with just the letter ({labels_str})."
 
-    def _get_latest_verification_dir(self, question_id: str) -> Optional[Path]:
-        qdir = self.verification_dir / question_id
-        if not qdir.exists():
-            return None
-        timestamped = sorted(
-            [d for d in qdir.iterdir()
-             if d.is_dir() and len(d.name) == 15 and d.name[8] == '_'],
-            reverse=True,
-        )
-        if timestamped:
-            return timestamped[0]
-        if (qdir / "summary.json").exists():
-            return qdir
-        return None
-
-    def _load_verification_summary(self, question_id: str) -> Optional[Dict]:
-        run_dir = self._get_latest_verification_dir(question_id)
-        if run_dir:
-            path = run_dir / "summary.json"
-            if path.exists():
-                with open(path) as f:
-                    return json.load(f)
-        return None
 
 
 # ------------------------------------------------------------------
@@ -338,21 +286,6 @@ def _resolve_choice_token_ids(tokenizer, choices: List[str]) -> Dict[str, int]:
             ids = tokenizer.encode(c, add_special_tokens=False)
         mapping[c] = ids[-1]
     return mapping
-
-
-def _question_from_summary(summary: Dict) -> Question:
-    qt = summary.get("question_type", "multiple_choice")
-    if qt == "binary_judge":
-        return BinaryJudgeQuestion(
-            id=summary["question_id"], question=summary["question"],
-            judge_prompt=summary["judge_prompt"], bad_outcome=summary["bad_outcome"],
-            subject=summary.get("subject"),
-        )
-    return GPQAQuestion(
-        id=summary["question_id"], question=summary["question"],
-        choices=summary["choices"], correct_answer=summary["correct_answer"],
-        correct_index=ord(summary["correct_answer"]) - ord("A"),
-    )
 
 
 def kl_divergence(p: Dict[str, float], q: Dict[str, float]) -> float:
