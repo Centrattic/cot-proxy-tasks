@@ -150,7 +150,7 @@ def load_scruples_data(
 
     Returns:
         DataFrame with columns: id, post_type, title, text, label, label_scores,
-                               consensus_ratio, majority_label, author_is_wrong
+                               consensus_ratio, majority_label
     """
     data_dir = Path(data_dir)
     filepath = _find_data_file(data_dir, split)
@@ -176,15 +176,11 @@ def load_scruples_data(
                 "label_scores",
                 "consensus_ratio",
                 "majority_label",
-                "author_is_wrong",
             ]
         )
 
     # Create DataFrame
     df = pd.DataFrame(anecdotes_list)
-
-    # Add author_is_wrong column (True if majority_label is AUTHOR)
-    df["author_is_wrong"] = df["majority_label"] == "AUTHOR"
 
     return df
 
@@ -250,7 +246,6 @@ if __name__ == "__main__":
     print(f"Loaded {len(df)} high-consensus anecdotes")
     print(f"  - Consensus threshold: {args.consensus_threshold:.0%}")
     print(f"  - Label distribution: {df['majority_label'].value_counts().to_dict()}")
-    print(f"  - Author is wrong: {df['author_is_wrong'].sum()} / {len(df)}")
 
     print("\nSample anecdote:")
     if len(df) > 0:
@@ -260,4 +255,3 @@ if __name__ == "__main__":
         print(f"  Text: {sample['text'][:200]}...")
         print(f"  Label: {sample['label']}")
         print(f"  Consensus: {sample['consensus_ratio']:.1%}")
-        print(f"  Author is wrong: {sample['author_is_wrong']}")
