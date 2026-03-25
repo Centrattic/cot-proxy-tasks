@@ -591,12 +591,11 @@ class ScruplesTask(BaseTask):
             )
             message = response.choices[0].message
             thinking = ""
-            if hasattr(message, "reasoning_details") and message.reasoning_details:
-                thinking = message.reasoning_details
+            extra = getattr(message, "model_extra", {}) or {}
+            if extra.get("reasoning"):
+                thinking = extra["reasoning"]
             elif hasattr(message, "reasoning_content") and message.reasoning_content:
                 thinking = message.reasoning_content
-            elif hasattr(message, "reasoning") and message.reasoning:
-                thinking = message.reasoning
 
             full_response = message.content or ""
             _, answer = self._parse_model_response(full_response)

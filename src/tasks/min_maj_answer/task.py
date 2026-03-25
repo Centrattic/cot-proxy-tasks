@@ -308,10 +308,11 @@ class MinMajAnswerTask(BaseTask):
             )
             msg = response.choices[0].message
             thinking = ""
-            if hasattr(msg, "reasoning_content") and msg.reasoning_content:
+            extra = getattr(msg, "model_extra", {}) or {}
+            if extra.get("reasoning"):
+                thinking = extra["reasoning"]
+            elif hasattr(msg, "reasoning_content") and msg.reasoning_content:
                 thinking = msg.reasoning_content
-            elif hasattr(msg, "reasoning") and msg.reasoning:
-                thinking = msg.reasoning
             answer = self._parse_answer(msg.content or "")
             return {"thinking": thinking, "answer": answer}
         except Exception as e:
