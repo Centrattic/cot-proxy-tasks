@@ -1,0 +1,10 @@
+{
+  "question_id": "binary_sum",
+  "rollout_idx": 83,
+  "label": "short",
+  "chain_of_thought": "Okay, let's see. I need to add two binary numbers: 110101 and 101110. Hmm, binary addition works similarly to decimal, but with carries happening when the sum is 2 instead of 10. Let me write them down aligned properly.\n\nStarting from the rightmost bit:\n\n1 1 0 1 0 1\n+1 0 1 1 1 0\n------------\n\nLet me add each column step by step, keeping track of the carry-over.\n\nRightmost column (1st position from right):\n1 + 0 = 1. No carry. Result so far: 1.\n\nNext column (2nd position):\n0 + 1 = 1. Still no carry. Result: 11.\n\nThird column (3rd position):\n1 + 1 = 10 in binary. That's 0 with a carry of 1. Result: 0, carry 1. Now the result is 011.\n\nFourth column (4th position):\n0 + 1 plus the carry 1. So 0+1+1=10. Again, 0 with carry 1. Result: 0011.\n\nFifth column (5th position):\n1 + 0 plus carry 1. 1+0+1=10. 0 with carry 1. Result: 00011.\n\nSixth column (6th position):\n1 + 1 plus carry 1. 1+1+1=11 in binary. So 1 with carry 1. Result: 100011.\n\nNow, after processing all columns, there's a remaining carry 1. So we add that at the beginning. Final result: 1100011.\n\nWait, let me check again to make sure I didn't make a mistake.\n\nLet me convert both numbers to decimal to verify.\n\n110101 in binary is 1*(2^5) + 1*(2^4) + 0*(2^3) + 1*(2^2) + 0*(2^1) + 1*(2^0) = 32 + 16 + 0 +4 +0 +1 = 53.\n\n101110 in binary is 1*(2^5) + 0*(2^4) + 1*(2^3) + 1*(2^2) + 1*(2^1) + 0*(2^0) = 32 + 0 +8 +4 +2 +0 = 46.\n\n53 + 46 = 99 in decimal. Let's convert 1100011 to decimal. That's 1*(2^6) + 1*(2^5) + 0*(2^4) + 0*(2^3) + 0*(2^2) + 1*(2^1) + 1*(2^0) = 64 + 32 +0 +0 +0 +2 +1 = 99. Correct. So the answer is 1100011.",
+  "token_length": 321,
+  "z_score": -1.33,
+  "prompt_mean_length": 1087.8,
+  "prompt_std_length": 574.6
+}

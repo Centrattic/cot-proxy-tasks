@@ -1,0 +1,12 @@
+{
+  "question_id": "colored_balls",
+  "rollout_idx": 12,
+  "prefix_idx": 0,
+  "label": "no",
+  "cot_prefix": "Okay, so I need to figure out how many different draws of 3 balls from a bag containing 4 red, 3 blue, and 2 green balls will result in exactly 2 red balls. Let me think through this step by step.\n\nFirst, the problem is about combinations because the order in which the balls are drawn doesn't matter. It's all about selecting a group of balls without replacement. The key here is that exactly 2 of them have to be red, which means the third one has to be a non-red ball. The non-red balls in the bag are the blue and green ones, right? Let me confirm: there are 3 blue and 2 green, so that's 3 + 2 = 5 non-red balls.\n\nThe total number of balls in the bag is 4 red + 3 blue + 2 green = 9 balls. We are drawing 3 balls, and we want exactly 2 red. So, the number of ways to choose 2 red balls out of 4, multiplied by the number of ways to choose 1 non-red ball out of the 5. That should give the total number of such combinations.\n\nLet me recall the combination formula: C(n, k) = n! / (k! * (n - k)!), where n is the total number of items, and k is the number we want to choose.\n\nSo, first part: choosing 2 red balls from 4. That would be C(4, 2). Let me compute that. 4! is 24, and 2! is 2, so 24 / (2 * 2) = 24 / 4 = 6. Wait, no, hold on. Wait, the combination formula is n! divided by [k! * (n - k)!]. So for C(4, 2), it's 4! / (2! * 2!) = (24)/(2*2) = 24/4 = 6. Yes, that's right. So there are 6 ways to choose 2 red balls.\n\nNow, for the third ball, which has to be non-red. There are 5 non-red balls (3 blue + 2 green). So we need to choose 1 out of these 5. That would be C(5, 1). Which is simply 5. Because choosing 1 out of 5 is 5 different ways.\n\nTherefore, the total number of favorable draws is 6 (ways to choose red balls) multiplied by 5 (ways to choose non-red balls). 6 * 5 = 30.",
+  "token_length": 553,
+  "yes_count": 0,
+  "no_count": 50,
+  "total_resamples": 50,
+  "mean_yes_position": 0.0
+}

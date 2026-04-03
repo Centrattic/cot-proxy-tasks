@@ -1,0 +1,10 @@
+{
+  "question_id": "alternating_sum_100",
+  "rollout_idx": 133,
+  "label": "short",
+  "chain_of_thought": "Okay, let's see. I need to figure out the sum of this series: 1 - 2 + 3 - 4 + 5 - ... + 99 - 100. Hmm, so it's alternating between adding and subtracting numbers. Let me try to break it down.\n\nFirst, maybe I should look for a pattern here. The series starts with 1, then subtracts 2, adds 3, subtracts 4, and so on. So, each pair of terms is like (1 - 2), then (3 - 4), (5 - 6)... up until (99 - 100). If I can find the sum of each pair and then multiply by the number of pairs, that might work.\n\nLet me check how many such pairs there are. Since the series goes up to 100, and each pair uses two numbers, there should be 100 divided by 2, which is 50 pairs. Each pair is (n - (n+1)) where n is odd. Let me compute one pair: 1 - 2 is -1, 3 - 4 is -1, 5 - 6 is -1... yeah, each pair adds up to -1.\n\nSo if there are 50 pairs, each contributing -1, the total sum would be 50 multiplied by -1. That would be -50. Let me verify this with a smaller example to make sure I'm not making a mistake.\n\nLet's take the series up to 4: 1 - 2 + 3 - 4. That's (1 - 2) + (3 - 4) = -1 + -1 = -2. Which is 2 pairs, so 2*-1 = -2. That checks out. Another example: up to 6: 1 - 2 + 3 - 4 + 5 - 6 = (-1) + (-1) + (-1) = -3. Which is 3 pairs, so 3*-1 = -3. Yep, that works.\n\nSo applying the same logic to 100 terms, which is 50 pairs, each of -1, the total sum should be -50. Wait, but let me make sure there's no leftover term or something. The original series ends with -100. Since we start at 1 and go up by 2 each time for the positive numbers, the last positive term is 99, then subtract 100. So yes, that's the 99th and 100th terms, forming the 50th pair. So no, there's no leftover term. Each pair is accounted for.\n\nTherefore, the answer should be -50.",
+  "token_length": 385,
+  "z_score": -2.33,
+  "prompt_mean_length": 847.7,
+  "prompt_std_length": 198.4
+}

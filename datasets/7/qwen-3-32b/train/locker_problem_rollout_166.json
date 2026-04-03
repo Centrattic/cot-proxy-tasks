@@ -1,0 +1,10 @@
+{
+  "question_id": "locker_problem",
+  "rollout_idx": 166,
+  "label": "short",
+  "chain_of_thought": "Okay, let's try to figure out this locker problem. So, there are 100 lockers, all starting closed. Then, Person 1 opens every locker. That means all lockers are open after the first person. Then Person 2 toggles every second locker. Toggling means if it's open, close it, and if it's closed, open it. So, Person 2 would close lockers 2, 4, 6, etc. Then Person 3 toggles every third locker, and so on up to Person 100.\n\nHmm, the question is how many lockers are open at the end. I think the key here is to figure out how many times each locker is toggled. Because each time a locker is toggled, it changes state. Since all lockers start closed, if a locker is toggled an odd number of times, it will end up open, and if it's toggled an even number of times, it'll be closed.\n\nSo, for each locker number, let's say locker number n, how many times is it toggled? Well, that's the same as how many divisors n has. Because Person k toggles locker n if k is a divisor of n. For example, locker 6 is toggled by Person 1, 2, 3, and 6. So, the number of divisors determines the number of toggles.\n\nTherefore, the lockers that end up open are those numbers n between 1 and 100 that have an odd number of divisors. Now, when does a number have an odd number of divisors? Usually, divisors come in pairs. For example, 6 has divisors 1 and 6, 2 and 3. But if a number is a perfect square, like 16, one of its divisors is repeated (4*4), so it has an odd number of divisors. Let me check that. For 16: 1, 2, 4, 8, 16. That's five divisors. The pair would be (1,16), (2,8), and then 4 by itself. So yes, perfect squares have an odd number of divisors.\n\nTherefore, the lockers that remain open are the ones that are perfect squares. So, how many perfect squares are there between 1 and 100? Well, 1^2 is 1, 2^2 is 4, ..., up to 10^2 is 100. So that's 10 numbers. Therefore, the answer should be 10 lockers open at the end.",
+  "token_length": 370,
+  "z_score": -1.17,
+  "prompt_mean_length": 708.3,
+  "prompt_std_length": 288.0
+}

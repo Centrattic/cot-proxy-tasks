@@ -1,0 +1,10 @@
+{
+  "question_id": "locker_problem",
+  "rollout_idx": 2,
+  "prefix_idx": 4,
+  "label": "no",
+  "cot_prefix": "Okay, let's see. There's this problem about 100 lockers, all starting closed. Then there are 100 people, each one toggling lockers in a certain pattern. Person 1 opens every locker, Person 2 toggles every second one, and so on up to Person 100. The question is, how many lockers are open at the end? Hmm. So, first, I need to figure out how each locker is affected by all these people. Each locker is toggled by the people whose number is a factor of the locker's number. For example, locker number 6 would be toggled by person 1, 2, 3, and 6. Because those are the factors of 6. Each time a person toggles a locker, it changes its state: open becomes closed, closed becomes open. So, the key here is to determine how many times each locker is toggled. If a locker is toggled an odd number of times, it will end up open because it starts closed. If it's toggled an even number of times, it stays closed. So the problem reduces to finding out how many numbers between 1 and 100 have an odd number of factors. Wait, but factors usually come in pairs, right? Like for a number that's not a perfect square, factors are in pairs. For example, 10 has factors 1 and 10, 2 and 5. So that's four factors, which is even. However, if a number is a perfect square, like 16, its factors are 1, 2, 4, 8, 16. Wait, but 4 is paired with 4 (since 4x4=16), so that's a duplicate. So perfect squares have an odd number of factors because one of the factors is repeated. Therefore, only perfect squares have an odd number of factors. So, that means only the lockers with numbers that are perfect squares will be toggled an odd number of times and thus remain open. All others will be toggled even times and stay closed. Therefore, the number of open lockers is equal to the number of perfect squares between 1 and 100. Let's see, the perfect squares in that range are 1²=1, 2²=4, 3²=9,... up",
+  "distance_from_end": 300,
+  "prefix_words": 351,
+  "total_words": 651
+}

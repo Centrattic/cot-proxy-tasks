@@ -1,22 +1,24 @@
 """
-Unified dataset generation script.
+Unified dataset generation script for tasks 4-6, 8-9.
 
-Generates datasets for all 5 tasks and saves them in the canonical format:
+Tasks 1-3 and 7 are handled by convert_all_tasks.py.
+
+Generates datasets in the canonical format:
 
   datasets/{N}/prompts/{split}/   -- prompt/question metadata JSONs
   datasets/{N}/qwen-3-32b/{split}/ -- model output JSONs
 
 Usage:
-  python -m src.runs.generate_dataset -1        # Scruples only
-  python -m src.runs.generate_dataset -2 -3     # Hinted CoT + Atypical answer
+  python -m src.runs.generate_dataset -4        # Scruples only
+  python -m src.runs.generate_dataset -5 -6     # Hinted CoT + Atypical answer
   python -m src.runs.generate_dataset --all      # All 5 tasks
 
 Tasks:
-  -1  Detecting the effect of a user preference (scruples)
-  -2  Detecting the effect of a Stanford professor hint (hinted_cot)
-  -3  Identifying atypical answers (min_maj_answer)
-  -4  Estimating the answer entropy (forced_response)
-  -5  Compressing reasoning traces (compressed_cot)
+  -4  Detecting the effect of a user preference (scruples)
+  -5  Detecting the effect of a Stanford professor hint (hinted_cot)
+  -6  Identifying atypical answers (min_maj_answer)
+  -8  Estimating the answer entropy (forced_response)
+  -9  Compressing reasoning traces (compressed_cot)
 """
 
 assert False, "This script is for reference only. Remove this line to regenerate datasets."
@@ -47,29 +49,29 @@ def _save_json(path: Path, data: dict) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Task 1 — Scruples (detecting user-preference sycophancy)
+# Task 4 — Scruples (detecting user-preference sycophancy)
 # ---------------------------------------------------------------------------
 
-TASK_1_SPLITS = ["train", "val", "test"]
+TASK_4_SPLITS = ["train", "val", "test"]
 
 
-def generate_task_1() -> None:
-    """Generate dataset 1: Detecting the effect of a user preference (scruples).
+def generate_task_4() -> None:
+    """Generate dataset 4: Detecting the effect of a user preference (scruples).
 
     Instantiates ScruplesTask for each variant, calls run_data() to produce
     control/intervention rollouts, then builds the canonical dataset layout:
 
-        datasets/1/prompts/{split}/
-        datasets/1/qwen-3-32b/{split}/
+        datasets/4/prompts/{split}/
+        datasets/4/qwen-3-32b/{split}/
     """
     from src.tasks.scruples.task import ScruplesTask
 
     print("=" * 60)
-    print("Task 1: Detecting the effect of a user preference (scruples)")
+    print("Task 4: Detecting the effect of a user preference (scruples)")
     print("=" * 60)
 
     subject_model = "qwen/qwen3-32b"
-    out_dir = DATASETS_DIR / "1"
+    out_dir = DATASETS_DIR / "4"
 
     # Generate rollouts for each variant
     for variant in ScruplesTask.VARIANTS:
@@ -98,33 +100,33 @@ def generate_task_1() -> None:
             _save_json(prompts_dir / f"{aid}.json", row_dict)
             _save_json(model_dir / f"{aid}.json", row_dict)
 
-    print(f"\nTask 1 saved to {out_dir}")
+    print(f"\nTask 4 saved to {out_dir}")
 
 
 # ---------------------------------------------------------------------------
-# Task 2 — Hinted CoT (detecting Stanford professor hint influence)
+# Task 5 — Hinted CoT (detecting Stanford professor hint influence)
 # ---------------------------------------------------------------------------
 
-TASK_2_SPLITS = ["train", "val", "test", "ood_test"]
+TASK_5_SPLITS = ["train", "val", "test", "ood_test"]
 
 
-def generate_task_2() -> None:
-    """Generate dataset 2: Detecting the effect of a Stanford professor hint.
+def generate_task_5() -> None:
+    """Generate dataset 5: Detecting the effect of a Stanford professor hint.
 
     Instantiates HintedCotTask for each variant, calls run_data() to produce
     control/intervention rollouts, then builds the canonical dataset layout:
 
-        datasets/2/prompts/{split}/
-        datasets/2/qwen-3-32b/{split}/
+        datasets/5/prompts/{split}/
+        datasets/5/qwen-3-32b/{split}/
     """
     from src.tasks.hinted_cot.task import HintedCotTask
 
     print("=" * 60)
-    print("Task 2: Detecting the effect of a Stanford professor hint (hinted_cot)")
+    print("Task 5: Detecting the effect of a Stanford professor hint (hinted_cot)")
     print("=" * 60)
 
     subject_model = "qwen/qwen3-32b"
-    out_dir = DATASETS_DIR / "2"
+    out_dir = DATASETS_DIR / "5"
 
     # Generate rollouts for each variant
     for variant in HintedCotTask.VARIANTS:
@@ -179,32 +181,32 @@ def generate_task_2() -> None:
             arm = row["arm"]
             _save_json(model_dir / f"{qid}_{arm}_{ridx}.json", row.to_dict())
 
-    print(f"\nTask 2 saved to {out_dir}")
+    print(f"\nTask 5 saved to {out_dir}")
 
 
 # ---------------------------------------------------------------------------
-# Task 3 — Atypical / minority answer identification (min_maj_answer)
+# Task 6 — Atypical / minority answer identification (min_maj_answer)
 # ---------------------------------------------------------------------------
 
-TASK_3_SPLITS = ["train", "test", "ood_test"]
+TASK_6_SPLITS = ["train", "test", "ood_test"]
 
 
-def generate_task_3() -> None:
-    """Generate dataset 3: Identifying atypical answers (min_maj_answer).
+def generate_task_6() -> None:
+    """Generate dataset 6: Identifying atypical answers (min_maj_answer).
 
     Uses leave-one-out folds: each prompt is held out as test in turn.
     The canonical dataset aggregates across folds.
 
-        datasets/3/prompts/{split}/
-        datasets/3/qwen-3-32b/{split}/
+        datasets/6/prompts/{split}/
+        datasets/6/qwen-3-32b/{split}/
     """
     from src.tasks.min_maj_answer.task import ALL_PROMPT_IDS, MinMajAnswerTask
 
     print("=" * 60)
-    print("Task 3: Identifying atypical answers (min_maj_answer)")
+    print("Task 6: Identifying atypical answers (min_maj_answer)")
     print("=" * 60)
 
-    out_dir = DATASETS_DIR / "3"
+    out_dir = DATASETS_DIR / "6"
 
     task = MinMajAnswerTask(prompt_ids=ALL_PROMPT_IDS)
     task.run_data()
@@ -254,34 +256,34 @@ def generate_task_3() -> None:
                 "filepath": row_dict.get("filepath", ""),
             })
 
-    print(f"\nTask 3 saved to {out_dir}")
+    print(f"\nTask 6 saved to {out_dir}")
 
 
 # ---------------------------------------------------------------------------
-# Task 4 — Forced response / answer entropy estimation
+# Task 8 — Forced response / answer entropy estimation
 # ---------------------------------------------------------------------------
 
-TASK_4_SPLITS = ["train", "test", "ood_test_1", "ood_test_2", "ood_test_3"]
+TASK_8_SPLITS = ["train", "test", "ood_test_1", "ood_test_2", "ood_test_3"]
 
 
-def generate_task_4() -> None:
-    """Generate dataset 4: Estimating the answer entropy (forced_response).
+def generate_task_8() -> None:
+    """Generate dataset 8: Estimating the answer entropy (forced_response).
 
     Runs sentence-by-sentence logprob forcing for each verified question.
     Requires a local vLLM instance and the verification rollouts to already
     exist in data/verification_rollouts/.
 
-        datasets/4/prompts/{split}/
-        datasets/4/qwen-3-32b/{split}/
+        datasets/8/prompts/{split}/
+        datasets/8/qwen-3-32b/{split}/
     """
     from src.tasks.forced_response.task import ForcingTask
 
     print("=" * 60)
-    print("Task 4: Estimating the answer entropy (forced_response)")
+    print("Task 8: Estimating the answer entropy (forced_response)")
     print("=" * 60)
 
     model = "Qwen/Qwen3-32B"
-    out_dir = DATASETS_DIR / "4"
+    out_dir = DATASETS_DIR / "8"
     task = ForcingTask(model=model)
 
     # Discover verified questions
@@ -354,33 +356,33 @@ def generate_task_4() -> None:
             # Save full forcing results (sentence-level distributions)
             _save_json(model_dir / f"{qid}.json", summary)
 
-    print(f"\nTask 4 saved to {out_dir}")
+    print(f"\nTask 8 saved to {out_dir}")
 
 
 # ---------------------------------------------------------------------------
-# Task 5 — Compressed CoT
+# Task 9 — Compressed CoT
 # ---------------------------------------------------------------------------
 
 
-def generate_task_5() -> None:
-    """Generate dataset 5: Compressing reasoning traces (compressed_cot).
+def generate_task_9() -> None:
+    """Generate dataset 9: Compressing reasoning traces (compressed_cot).
 
     Builds CompressionSpecs for verified questions and computes baseline /
     deletion distributions via logprob forcing.  Requires a local vLLM instance.
 
     Layout (flat prompts, method-based model outputs):
 
-        datasets/5/prompts/{question_id}.json
-        datasets/5/qwen-3-32b/{method}/{question_id}.json
+        datasets/9/prompts/{question_id}.json
+        datasets/9/qwen-3-32b/{method}/{question_id}.json
     """
     from src.tasks.compressed_cot.task import CompressedCotTask
 
     print("=" * 60)
-    print("Task 5: Compressing reasoning traces (compressed_cot)")
+    print("Task 9: Compressing reasoning traces (compressed_cot)")
     print("=" * 60)
 
     model = "Qwen/Qwen3-32B"
-    out_dir = DATASETS_DIR / "5"
+    out_dir = DATASETS_DIR / "9"
     task = CompressedCotTask(model=model)
 
     # Discover verified questions
@@ -429,7 +431,7 @@ def generate_task_5() -> None:
     for method in method_names:
         _ensure_dirs(out_dir / "qwen-3-32b" / method)
 
-    print(f"\nTask 5 saved to {out_dir}")
+    print(f"\nTask 9 saved to {out_dir}")
 
 
 # ---------------------------------------------------------------------------
@@ -437,12 +439,14 @@ def generate_task_5() -> None:
 # ---------------------------------------------------------------------------
 
 TASK_RUNNERS = {
-    1: ("Detecting the effect of a user preference (scruples)", generate_task_1),
-    2: ("Detecting the effect of a Stanford professor hint (hinted_cot)", generate_task_2),
-    3: ("Identifying atypical answers (min_maj_answer)", generate_task_3),
-    4: ("Estimating the answer entropy (forced_response)", generate_task_4),
-    5: ("Compressing reasoning traces (compressed_cot)", generate_task_5),
+    4: ("Detecting the effect of a user preference (scruples)", generate_task_4),
+    5: ("Detecting the effect of a Stanford professor hint (hinted_cot)", generate_task_5),
+    6: ("Identifying atypical answers (min_maj_answer)", generate_task_6),
+    8: ("Estimating the answer entropy (forced_response)", generate_task_8),
+    9: ("Compressing reasoning traces (compressed_cot)", generate_task_9),
 }
+
+TASK_NUMS = sorted(TASK_RUNNERS.keys())
 
 
 def main() -> None:
@@ -451,16 +455,16 @@ def main() -> None:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__,
     )
-    parser.add_argument("-1", dest="task_1", action="store_true",
-                        help="Generate dataset 1: scruples (user preference sycophancy)")
-    parser.add_argument("-2", dest="task_2", action="store_true",
-                        help="Generate dataset 2: hinted_cot (Stanford professor hint)")
-    parser.add_argument("-3", dest="task_3", action="store_true",
-                        help="Generate dataset 3: min_maj_answer (atypical answers)")
     parser.add_argument("-4", dest="task_4", action="store_true",
-                        help="Generate dataset 4: forced_response (answer entropy)")
+                        help="Generate dataset 4: scruples (user preference sycophancy)")
     parser.add_argument("-5", dest="task_5", action="store_true",
-                        help="Generate dataset 5: compressed_cot (reasoning compression)")
+                        help="Generate dataset 5: hinted_cot (Stanford professor hint)")
+    parser.add_argument("-6", dest="task_6", action="store_true",
+                        help="Generate dataset 6: min_maj_answer (atypical answers)")
+    parser.add_argument("-8", dest="task_8", action="store_true",
+                        help="Generate dataset 8: forced_response (answer entropy)")
+    parser.add_argument("-9", dest="task_9", action="store_true",
+                        help="Generate dataset 9: compressed_cot (reasoning compression)")
     parser.add_argument("--all", action="store_true",
                         help="Generate all 5 datasets")
 
@@ -469,15 +473,15 @@ def main() -> None:
     # Determine which tasks to run
     selected = []
     if args.all:
-        selected = [1, 2, 3, 4, 5]
+        selected = list(TASK_NUMS)
     else:
-        for i in range(1, 6):
+        for i in TASK_NUMS:
             if getattr(args, f"task_{i}", False):
                 selected.append(i)
 
     if not selected:
         parser.print_help()
-        print("\nError: specify at least one task flag (-1 through -5) or --all")
+        print("\nError: specify at least one task flag (-4, -5, -6, -8, -9) or --all")
         sys.exit(1)
 
     print(f"Generating datasets for tasks: {selected}")

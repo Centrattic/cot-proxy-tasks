@@ -1,0 +1,10 @@
+{
+  "question_id": "gpqa_chem_002",
+  "rollout_idx": 23,
+  "prefix_idx": 0,
+  "label": "yes",
+  "cot_prefix": "To estimate the contact angle of an **octane** droplet on the *rough* coating surface, we utilize the **Cassie-Baxter model**, which describes contact angles on heterogeneous surfaces where air pockets are trapped under the liquid (a common scenario for superhydrophobic materials). The model is: $$ \\cos \\theta_{\\text{CB}} = \\phi \\cos \\theta_0 - (1 - \\phi) $$ where: - $\\theta_{\\text{CB}}$ is the observed Cassie-Baxter contact angle on the rough surface, - $\\theta_0$ is the contact angle on a *smooth* surface (Young contact angle), - $\\phi$ is the solid fraction of the surface (i.e., the portion in direct contact with the liquid). --- ### **Step 1: Determine the roughness factor $\\phi$ using water contact angles** Given: - On smooth surface: $\\theta_0 = 132^\\circ$ - On rough surface: $\\theta_{\\text{CB}} = 148^\\circ$ Compute $\\cos \\theta_0 = \\cos 132^\\circ = -0.6691$ And $\\cos \\theta_{\\text{CB}} = \\cos 148^\\circ = -0.8480$ Plug into Cassie-Baxter: $$ -0.8480 = \\phi(-0.6691) - (1 - \\phi) $$ Solve for $\\phi$: $$ -0.8480 + 1 = \\phi(-0.6691 + 1) = \\phi(0.3309) $$ $$ \\phi = \\frac{0.152}{0.3309} \\approx 0.459 $$ --- ### **Step 2: Estimate the smooth surface contact angle for octane** We do **not** have the smooth surface contact angle for octane directly, but we **are given** the smooth surface contact angle for **hexadecane** (a long-chain hydrocarbon) as **102 °**. Since **octane** is a similar **non-polar hydrocarbon** with a slightly lower surface energy, we can **reasonably assume** that the smooth surface contact angle for octane is approximately the same — i.e., **102 °**. $$ \\cos \\theta_0 = \\cos 102^\\circ \\approx -0.2079 $$ --- ### **Step 3: Apply the Cassie-Baxter formula to octane on the rough surface** Using $\\phi = 0.459$, $\\cos \\theta_0 = -0.2079$: $$ \\cos \\theta_{\\text{CB}} = 0.459 \\cdot (-0.2079) - (1 - 0.459) $$ $$",
+  "distance_from_end": 45,
+  "prefix_words": 294,
+  "total_words": 339
+}

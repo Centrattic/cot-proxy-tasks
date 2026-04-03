@@ -1,0 +1,10 @@
+{
+  "question_id": "locker_problem",
+  "rollout_idx": 121,
+  "label": "short",
+  "chain_of_thought": "Okay, let's see. There's this problem about 100 lockers, all starting closed. Person 1 opens every locker. Then Person 2 toggles every 2nd locker, Person 3 toggles every 3rd locker, and so on up to Person 100. The question is, how many lockers are open at the end?\n\nHmm. So first, I need to figure out what each locker goes through. Each locker is toggled by every person whose number is a factor of the locker's number. For example, locker number 6 would be toggled by person 1, 2, 3, and 6. Because those are the factors of 6.\n\nSince all lockers start closed, each time a person toggles it, it changes state. So if it's toggled an even number of times, it ends up closed again. If it's toggled an odd number of times, it ends up open. So the key is to find out which lockers have an odd number of factors.\n\nBut wait, factors usually come in pairs, right? Like for a number that's not a perfect square, the factors are in pairs. For example, 6 has factors 1 and 6, 2 and 3. So that's four factors, which is even. But if a number is a perfect square, like 9, its factors are 1, 3, and 9. Here, 3 is repeated because it's the square root. So perfect squares have an odd number of factors. Therefore, only lockers with numbers that are perfect squares will be toggled an odd number of times and thus remain open.\n\nSo how many perfect squares are there between 1 and 100? Well, the squares of 1, 2, 3,... up to 10, since 10 squared is 100. So that's 10 numbers. Therefore, there should be 10 lockers open at the end.\n\nLet me double-check. Let's take a small example. For locker 1: only person 1 toggles it, so it's open. Locker 2: toggled by 1 and 2, so closed. Locker 3: 1 and 3, closed. Locker 4: 1, 2, 4. Toggled three times, so open. Yeah, that fits. So the pattern holds. So the answer should be 10.",
+  "token_length": 347,
+  "z_score": -1.25,
+  "prompt_mean_length": 708.3,
+  "prompt_std_length": 288.0
+}

@@ -1,0 +1,10 @@
+{
+  "question_id": "binary_sum",
+  "rollout_idx": 76,
+  "label": "short",
+  "chain_of_thought": "Okay, let's see. I need to add these two binary numbers: 110101 and 101110. Hmm, binary addition is similar to decimal, right? But with carries happening every 2 instead of every 10. Let me write them down vertically to make it easier.\n\nStarting from the rightmost digit:\n\n1st digit (from right): 1 + 0 = 1. No carry-over here.\n\n2nd digit: 0 + 1 = 1. Still no carry.\n\n3rd digit: 1 + 1 = 10 in binary. So that's 0 with a carry-over of 1.\n\n4th digit: 0 + 1 plus the carry-over 1. So 0+1+1=10 again. Another 0 with carry-over 1.\n\n5th digit: 1 + 0 plus carry-over 1. 1+0+1=10. So 0 and carry-over 1 again.\n\n6th digit: 1 + 1 plus carry-over 1. That's 1+1+1=11 in binary. So write down 1 and carry-over 1. But since there are no more digits left, we add that carry-over at the end.\n\nPutting it all together: the result should be 1100011. Wait, let me check again step by step to make sure I didn't make a mistake.\n\nLet me align them:\n\n  1 1 0 1 0 1\n+ 1 0 1 1 1 0\n----------------\n\nStarting from the right:\n\nPositions (from right, 0 to 5):\n\nPosition 0: 1 + 0 = 1\nPosition 1: 0 + 1 = 1\nPosition 2: 1 + 1 = 0, carry 1\nPosition 3: 0 + 1 + 1 (carry) = 0, carry 1\nPosition 4: 1 + 0 + 1 (carry) = 0, carry 1\nPosition 5: 1 + 1 + 1 (carry) = 1, carry 1\n\nThen after the last position, we have a carry-over of 1, so we add it at the beginning. So the result is 1 1 0 0 0 1 1, which is 1100011 in binary. Let me verify by converting to decimal.\n\n110101 in binary is 1*32 + 1*16 + 0*8 + 1*4 + 0*2 + 1*1 = 32+16+4+1=53.\n\n101110 in binary is 1*32 + 0*16 + 1*8 + 1*4 + 1*2 + 0*1 = 32+8+4+2=46.\n\nAdding 53 + 46 = 99. Now convert 99 to binary. Let's divide by 2:\n\n99 / 2 = 49 remainder 1\n\n49 / 2 = 24 r1\n\n24/2=12 r0\n\n12/2=6 r0\n\n6/2=3 r0\n\n3/2=1 r1\n\n1/2=0 r1\n\nReading remainders from bottom: 1100011. Yep, that matches. So the result is 1100011.",
+  "token_length": 390,
+  "z_score": -1.21,
+  "prompt_mean_length": 1087.8,
+  "prompt_std_length": 574.6
+}

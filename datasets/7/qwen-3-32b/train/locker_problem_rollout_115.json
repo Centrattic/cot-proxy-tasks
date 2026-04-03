@@ -1,0 +1,10 @@
+{
+  "question_id": "locker_problem",
+  "rollout_idx": 115,
+  "label": "short",
+  "chain_of_thought": "Okay, let's see. There's this problem with 100 lockers, all starting closed. Then there are 100 people, each person k toggles every k-th locker. The first person opens every locker, the second person toggles every second one, and so on up to the 100th person. The question is how many lockers are open at the end.\n\nHmm. So first, I need to figure out how many times each locker is toggled. Because each time a locker is toggled, it changes state: open becomes closed, closed becomes open. So if a locker is toggled an even number of times, it'll end up closed (since it started closed), and if it's toggled an odd number of times, it'll end up open.\n\nSo the key is to determine for each locker number, how many divisors it has. Because each time a person's number divides the locker number, they'll toggle it. For example, locker number 6 will be toggled by person 1, 2, 3, and 6. So four times, which is even, so it ends up closed.\n\nWait, but divisors usually come in pairs. Unless the number is a perfect square. Because if a number is a perfect square, one of its divisors is repeated (like 4: 1, 2, 4. The square root is 2, which is counted once). So for perfect squares, the number of divisors is odd. For non-perfect squares, it's even. Therefore, only lockers with numbers that are perfect squares will be open at the end.\n\nSo how many perfect squares are there between 1 and 100? Well, the squares are 1^2=1, 2^2=4, 3^2=9, ..., up to 10^2=100. So that's 10 numbers. Therefore, 10 lockers will be open at the end.\n\nLet me double-check. For example, locker 1 is toggled once (open). Locker 2 is toggled by 1 and 2 (two times, closed). Locker 3 is toggled by 1 and 3 (two times, closed). Locker 4 is toggled by 1, 2, 4 (three times, open). Yeah, that seems right. So the pattern holds. Therefore, the answer should be 10.",
+  "token_length": 338,
+  "z_score": -1.29,
+  "prompt_mean_length": 708.3,
+  "prompt_std_length": 288.0
+}

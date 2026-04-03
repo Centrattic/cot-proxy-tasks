@@ -1,0 +1,10 @@
+{
+  "question_id": "binary_sum",
+  "rollout_idx": 22,
+  "label": "short",
+  "chain_of_thought": "Okay, let's see. I need to add two binary numbers: 110101 and 101110. Hmm, binary addition. I remember that it works similarly to decimal, but with carries happening when the sum is 2 instead of 10. Let me write them down aligned properly.\n\nStarting from the rightmost digit:\n\n1 (from 110101) + 0 (from 101110) = 1. That's straightforward, no carry-over.\n\nNext digit: 0 + 1 = 1. Still no carry-over.\n\nThird digit from the right: 1 + 1 = 10 in binary, so that's 0 with a carry-over of 1.\n\nFourth digit: 0 + 1 plus the carry-over 1. So 0+1=1, plus 1 makes 10 again. So 0 with another carry-over.\n\nFifth digit: 1 + 0 plus carry-over 1. 1+0=1, plus 1 gives 10 again. So 0 and carry-over 1.\n\nLeftmost digits: 1 + 1 plus carry-over 1. 1+1=10, plus 1 would be 11. So 1 and carry-over 1. But there are no more digits left, so we need to add that final carry-over.\n\nPutting it all together: The result should be 1100011. Wait, let me check again step by step to make sure I didn't make a mistake.\n\nAlternatively, maybe converting both numbers to decimal, adding, then converting back. Let's try that as a cross-check.\n\n110101 in binary: Let's compute. From right to left:\n\n1*2^0 = 1\n\n0*2^1 = 0\n\n1*2^2 = 4\n\n0*2^3 = 0\n\n1*2^4 = 16\n\n1*2^5 = 32\n\nAdding up: 32 + 16 + 4 + 1 = 53.\n\n101110 in binary:\n\n0*2^0 = 0\n\n1*2^1 = 2\n\n1*2^2 = 4\n\n1*2^3 = 8\n\n0*2^4 = 0\n\n1*2^5 = 32\n\nAdding up: 32 + 8 + 4 + 2 = 46.\n\n53 + 46 = 99. Now convert 99 to binary. Let's divide by 2:\n\n99 / 2 = 49 remainder 1\n\n49 / 2 = 24 r1\n\n24/2=12 r0\n\n12/2=6 r0\n\n6/2=3 r0\n\n3/2=1 r1\n\n1/2=0 r1\n\nReading remainders from bottom: 1100011. So that's 1100011 in binary. Which matches my previous result. So the answer should be 1100011.",
+  "token_length": 335,
+  "z_score": -1.31,
+  "prompt_mean_length": 1087.8,
+  "prompt_std_length": 574.6
+}

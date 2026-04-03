@@ -1,0 +1,10 @@
+{
+  "question_id": "locker_problem",
+  "rollout_idx": 80,
+  "label": "short",
+  "chain_of_thought": "Okay, let's see. There's this problem about 100 lockers, all starting closed. Then there are 100 people, each person k toggles every k-th locker. So Person 1 opens every locker, right? Because they're all closed to start. Then Person 2 toggles every 2nd locker, which would close lockers 2, 4, 6, etc. Then Person 3 toggles every 3rd locker, so locker 3, 6, 9... and so on up to Person 100 who toggles the 100th locker.\n\nThe question is how many lockers are open at the end. Hmm. So each locker is toggled by each person whose number is a factor of the locker number. For example, locker number 6 would be toggled by Person 1, 2, 3, and 6. So the number of times a locker is toggled is equal to the number of factors it has. Since all lockers start closed, if a locker is toggled an even number of times, it will end up closed (because toggling twice brings it back to original state). If it's toggled an odd number of times, it'll end up open.\n\nSo, the key here is to figure out how many numbers between 1 and 100 have an odd number of factors. Because those lockers would be left open. Wait, but normally, factors come in pairs. For example, 6 has factors 1 and 6, 2 and 3. So that's four factors. But if a number is a perfect square, like 16, then it has an odd number of factors because one of the factors is repeated (4*4). So for 16, factors are 1, 2, 4, 8, 16. The 4 is only counted once. So perfect squares have an odd number of factors. Therefore, the lockers that are left open are the ones that are perfect squares.\n\nSo the problem reduces to how many perfect squares are there between 1 and 100. Let's see, 1^2 is 1, 2^2 is 4, 3^2 is 9,... up to 10^2 which is 100. So there are 10 perfect squares (since 10*10=100). Therefore, the answer should be 10 lockers are open at the end.",
+  "token_length": 346,
+  "z_score": -1.26,
+  "prompt_mean_length": 708.3,
+  "prompt_std_length": 288.0
+}

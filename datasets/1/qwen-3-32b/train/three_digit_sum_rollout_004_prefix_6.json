@@ -1,0 +1,10 @@
+{
+  "question_id": "three_digit_sum",
+  "rollout_idx": 4,
+  "prefix_idx": 6,
+  "label": "no",
+  "cot_prefix": "Okay, so I need to find how many 3-digit numbers have digits that add up to exactly 7. Let me think about how to approach this. First, a 3-digit number ranges from 100 to 999. That means the first digit (hundreds place) can't be zero. The digits are in the form ABC, where A is from 1 to 9, and B and C are from 0 to 9. The sum A + B + C must equal 7. This seems like a problem where I can use combinatorics, specifically the \"stars and bars\" theorem. But I need to remember that the first digit has a different constraint than the others. Stars and bars is used to find the number of non-negative integer solutions to equations like x1 + x2 + ... + xn = k. The formula for that is C(k + n - 1, n - 1), where C is combinations. However, in this case, the hundreds digit can't be zero, so I need to adjust for that. Let me rephrase the problem. Let A, B, C be non-negative integers such that A ≥ 1 (since it's a 3-digit number), B ≥ 0, C ≥ 0, and A + B + C = 7. If I let A' = A - 1, then A' ≥ 0, and the equation becomes A' + 1 + B + C = 7, which simplifies to A' + B + C = 6. Now, all variables are non-negative integers. So the number of solutions is C(6 + 3 - 1, 3 - 1) = C(8, 2). Let me calculate that. C(8, 2) is 28. But wait, is that all? Are there any constraints left? Wait, originally, A was at most 9 (since digits can't exceed 9), but since A' = A - 1, and the sum A' + B + C = 6, the maximum value A' can take is 6 (if B and C are 0). Since A' = 6 would mean A = 7, which is okay. However, digits B and C can be up to",
+  "distance_from_end": 900,
+  "prefix_words": 345,
+  "total_words": 1245
+}

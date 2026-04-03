@@ -1,0 +1,10 @@
+{
+  "question_id": "grid_paths",
+  "rollout_idx": 39,
+  "label": "short",
+  "chain_of_thought": "Okay, so I need to figure out how many shortest paths there are from the corner (0,0) to (4,3) on a grid, moving only right or up. Hmm. Let me think.\n\nFirst, a shortest path would mean moving only right (R) or up (U) without any detours. So, from (0,0) to (4,3), I need to move 4 steps to the right and 3 steps up, right? Because the coordinates are (4,3), which is 4 units in the x-direction and 3 units in the y-direction. So in total, the path should consist of 4 R's and 3 U's arranged in some order.\n\nThe problem then becomes: how many different ways can I arrange these steps? Since each path is a sequence of moves, and the order matters but some moves are the same. So it's a permutation problem with repeated elements. The formula for permutations of n items where there are duplicates is n! divided by the product of the factorials of the counts of each duplicate.\n\nIn this case, the total number of moves is 4 R's + 3 U's = 7 moves. So n is 7. The number of duplicates are 4 R's and 3 U's. Therefore, the number of different paths should be 7! divided by (4! * 3!). Let me compute that.\n\nFirst, 7! is 7 × 6 × 5 × 4 × 3 × 2 × 1. But maybe I can simplify before multiplying everything out. Let's see:\n\n7! / (4! * 3!) = (7 × 6 × 5 × 4! ) / (4! × 3 × 2 × 1) ) \n\nOh, right, the 4! cancels out from numerator and denominator. So that leaves 7 × 6 × 5 / (3 × 2 × 1). Let me compute that:\n\n7 × 6 × 5 = 210\n\n3 × 2 × 1 = 6\n\n210 / 6 = 35.\n\nSo there are 35 different shortest paths. Let me check if that makes sense. For example, in a smaller grid, say from (0,0) to (2,2), the number of paths should be 4!/(2!2!) = 6, which is correct. So scaling up, 4,3 should be 35. Wait, another way to think about it is using combinations. Since we have to choose 4 steps to the right (and the rest up), or vice versa. So the number is C(7,4) which is 35, or C(7,3) which is also 35. Yep, that checks out. So the answer should be 35.",
+  "token_length": 407,
+  "z_score": -1.46,
+  "prompt_mean_length": 715.3,
+  "prompt_std_length": 211.3
+}
